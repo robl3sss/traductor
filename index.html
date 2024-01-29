@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traductor de Idiomas</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4; /* Fondo gris claro */
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #translator {
+            width: 300px;
+            background-color: #fff; /* Fondo blanco */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc; /* Borde gris */
+            border-radius: 5px;
+            resize: none; /* Deshabilitar redimensionamiento */
+        }
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc; /* Borde gris */
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50; /* Verde */
+            color: #fff; /* Texto blanco */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049; /* Verde más oscuro al pasar el ratón */
+        }
+    </style>
+</head>
+<body>
+
+    <div id="translator">
+        <h2>Traductor de Idiomas</h2>
+        
+        <textarea id="inputText" placeholder="Escribe tu texto en el idioma original"></textarea>
+        <br>
+
+        <select id="selectLanguage">
+            <option value="af">Afrikáans</option>
+            <option value="sq">Albanés</option>
+            <option value="am">Amárico</option>
+            <!-- Agregar más idiomas según sea necesario -->
+            <option value="es">Español</option>
+            <option value="en">Inglés</option>
+            <option value="fr">Francés</option>
+            <option value="de">Alemán</option>
+            <option value="it">Italiano</option>
+            <option value="pt">Portugués</option>
+            <option value="zh">Chino</option>
+            <option value="ja">Japonés</option>
+            <option value="ru">Ruso</option>
+            <option value="ar">Árabe</option>
+            <!-- Y muchos más -->
+        </select>
+        <br>
+
+        <button onclick="traducirTexto()">Traducir</button>
+        <br>
+
+        <textarea id="outputText" placeholder="Traducción aparecerá aquí" readonly></textarea>
+    </div>
+
+    <script>
+        async function traducirTexto() {
+            const inputText = document.getElementById('inputText').value;
+            const targetLanguage = document.getElementById('selectLanguage').value;
+
+            const response = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${targetLanguage}&dt=t&q=${encodeURIComponent(inputText)}`);
+            const data = await response.json();
+
+            const translatedText = data[0][0][0];
+            document.getElementById('outputText').value = translatedText;
+        }
+    </script>
+
+</body>
+</html>
